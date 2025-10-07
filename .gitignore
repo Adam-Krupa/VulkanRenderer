@@ -1,0 +1,20 @@
+# Visual Studio cache
+.vs/
+# Kompilacja
+*.obj
+*.pdb
+*.exe
+*.ilk
+*.idb
+*.log
+*.tlog
+*.suo
+*.user
+*.cache
+*.ipch
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake-build*/
+# Vulkan shader cache
+*.spv
