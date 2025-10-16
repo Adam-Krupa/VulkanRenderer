@@ -1,20 +1,28 @@
 #pragma once
 
-#include <vulkan/vulkan.h>
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <optional>
-#include <vector>
+
 #include <iostream>
 #include <stdexcept>
-#include <cstdlib>
+#include <vector>
 #include <cstring>
+#include <cstdlib>
+#include <optional>
+#include <set>
+#include <cstdint>
+#include <limits> 
+#include <algorithm>
 
-// Sta³e okna
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
-// Warstwy walidacyjne
-extern const std::vector<const char*> validationLayers;
+const std::vector<const char*> validationLayers = {
+    "VK_LAYER_KHRONOS_validation"
+};
+const std::vector<const char*> deviceExtensions = {
+    "VK_KHR_SWAPCHAIN_EXTENSION_NAME"
+};
 
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
@@ -22,7 +30,7 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
-// Deklaracje funkcji pomocniczych Vulkan
+// --- Funkcje pomocnicze Vulkan ---
 VkResult CreateDebugUtilsMessengerEXT(
     VkInstance instance,
     const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
@@ -36,39 +44,68 @@ void DestroyDebugUtilsMessengerEXT(
     const VkAllocationCallbacks* pAllocator
 );
 
-// Struktura kolejek
+// --- Struktury pomocnicze ---
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
+    std::optional<uint32_t> presentFamily;
+
     bool isComplete();
 };
+struct SwapChainSupportDetails
+{
+    VkSurfaceCapabilitiesKHR capabilities;
+    std::vector<VkSurfaceFormatKHR> formats;
+    std::vector<VkPresentModeKHR> presentModes;
+};
 
-// Klasa zarz¹dzaj¹ca konfiguracj¹ Vulkan + GLFW
+// --- G³ówna klasa odpowiedzialna za setup Vulkan + okno ---
 class SetupManager {
 public:
     void run();
 
 private:
+    // Okno GLFW
     GLFWwindow* window;
+
+    // Vulkan core
     VkInstance instance;
     VkDebugUtilsMessengerEXT debugMessenger;
-    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+    VkSurfaceKHR surface;
 
+    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+    VkDevice device;
+
+    VkQueue graphicsQueue;
+    VkQueue presentQueue;
+    VkSwapchainKHR swapChain;
+
+    // --- Funkcje inicjalizacyjne ---
     void initWindow();
     void initVulkan();
     void mainLoop();
     void cleanup();
 
+    // --- Vulkan setup ---
     void createInstance();
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
     void setupDebugMessenger();
+    void createSurface();
     void pickPhysicalDevice();
+    void createLogicalDevice();
+    void createSwapChain();
 
+    // --- Narzêdzia pomocnicze ---
     bool isDeviceSuitable(VkPhysicalDevice device);
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
-
-    std::vector<const char*> getRequiredExtensions();
     bool checkValidationLayerSupport();
+    bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+    VkSurfaceFormatKHR chooseSwapChainFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+    VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+    std::vector<const char*> getRequiredExtensions();
 
+    // --- Callback debugowania ---
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
         VkDebugUtilsMessageTypeFlagsEXT messageType,
