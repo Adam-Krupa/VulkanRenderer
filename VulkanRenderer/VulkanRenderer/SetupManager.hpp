@@ -79,8 +79,10 @@ private:
     VkQueue presentQueue;
     VkSwapchainKHR swapChain;
     std::vector<VkImage> swapChainImages;
+    std::vector<VkImageView> swapChainImageViews;
     VkFormat swapChainImageFormat;
     VkExtent2D swapChainExtent;
+    
 
     // --- Funkcje inicjalizacyjne ---
     void initWindow();
@@ -96,6 +98,8 @@ private:
     void pickPhysicalDevice();
     void createLogicalDevice();
     void createSwapChain();
+    void createImageViews();
+    void createGraphicsPipeline();
 
     // --- Narzêdzia pomocnicze ---
     bool isDeviceSuitable(VkPhysicalDevice device);
