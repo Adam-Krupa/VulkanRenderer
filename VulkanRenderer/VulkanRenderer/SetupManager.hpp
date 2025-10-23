@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <limits> 
 #include <algorithm>
+#include <fstream>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -29,6 +30,7 @@ const bool enableValidationLayers = false;
 #else
 const bool enableValidationLayers = true;
 #endif
+static std::vector<char>readFile(const std::filesystem::path& path);
 
 // --- Funkcje pomocnicze Vulkan ---
 VkResult CreateDebugUtilsMessengerEXT(
@@ -105,6 +107,7 @@ private:
     bool isDeviceSuitable(VkPhysicalDevice device);
     bool checkValidationLayerSupport();
     bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+    VkShaderModule createShaderModule(const std::vector<char>&);
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
     SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
     VkSurfaceFormatKHR chooseSwapChainFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
