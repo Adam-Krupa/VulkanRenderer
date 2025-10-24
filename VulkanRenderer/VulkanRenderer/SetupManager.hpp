@@ -79,6 +79,7 @@ private:
 
     VkQueue graphicsQueue;
     VkQueue presentQueue;
+    VkPipelineLayout pipelineLayout;
     VkSwapchainKHR swapChain;
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews;
