@@ -80,11 +80,13 @@ private:
     VkQueue graphicsQueue;
     VkQueue presentQueue;
     VkPipelineLayout pipelineLayout;
+    VkRenderPass renderPass;
     VkSwapchainKHR swapChain;
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews;
     VkFormat swapChainImageFormat;
     VkExtent2D swapChainExtent;
+    VkPipeline graphicsPipeline;
     
 
     // --- Funkcje inicjalizacyjne ---
@@ -102,6 +104,7 @@ private:
     void createLogicalDevice();
     void createSwapChain();
     void createImageViews();
+    void createRenderPass();
     void createGraphicsPipeline();
 
     // --- Narzêdzia pomocnicze ---
