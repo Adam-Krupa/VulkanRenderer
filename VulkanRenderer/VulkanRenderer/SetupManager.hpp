@@ -84,10 +84,12 @@ private:
     VkSwapchainKHR swapChain;
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews;
+    std::vector<VkFramebuffer> swapChainFramebuffers;
     VkFormat swapChainImageFormat;
     VkExtent2D swapChainExtent;
     VkPipeline graphicsPipeline;
-    
+    VkCommandPool commandPool;
+    VkCommandBuffer commandBuffer;
 
     // --- Funkcje inicjalizacyjne ---
     void initWindow();
@@ -106,12 +108,16 @@ private:
     void createImageViews();
     void createRenderPass();
     void createGraphicsPipeline();
+    void createFramebuffers();
+    void createCommandPool();
+    void createCommandBuffer();
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
     // --- Narzêdzia pomocnicze ---
     bool isDeviceSuitable(VkPhysicalDevice device);
     bool checkValidationLayerSupport();
     bool checkDeviceExtensionSupport(VkPhysicalDevice device);
-    VkShaderModule createShaderModule(const std::vector<char>&);
+    VkShaderModule createShaderModule(const std::vector<char>& code);
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
     SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
     VkSurfaceFormatKHR chooseSwapChainFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
