@@ -91,11 +91,17 @@ private:
     VkCommandPool commandPool;
     VkCommandBuffer commandBuffer;
 
+    // --- Sync objects ---
+    VkSemaphore imageAvailableSemaphore;
+    VkSemaphore renderFinishedSemaphore;
+    VkFence inFlightFence;
+
     // --- Funkcje inicjalizacyjne ---
     void initWindow();
     void initVulkan();
     void mainLoop();
     void cleanup();
+    void drawFrame();
 
     // --- Vulkan setup ---
     void createInstance();
@@ -112,6 +118,7 @@ private:
     void createCommandPool();
     void createCommandBuffer();
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void createSyncObjects();
 
     // --- Narzêdzia pomocnicze ---
     bool isDeviceSuitable(VkPhysicalDevice device);
