@@ -2,6 +2,7 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 #include <iostream>
 #include <stdexcept>
@@ -14,6 +15,7 @@
 #include <limits> 
 #include <algorithm>
 #include <fstream>
+#include <array>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -25,6 +27,11 @@ const std::vector<const char*> validationLayers = {
 };
 const std::vector<const char*> deviceExtensions = {
     VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
+const std::vector<Vertex> vertices = {
+    {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+    {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
 };
 
 #ifdef NDEBUG
@@ -61,7 +68,13 @@ struct SwapChainSupportDetails
     std::vector<VkSurfaceFormatKHR> formats;
     std::vector<VkPresentModeKHR> presentModes;
 };
-
+struct Vertex
+{
+    glm::vec2 pos;
+    glm::vec3 color;
+    static VkVertexInputBindingDescription getBindingDescription();
+    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescription();
+};
 // --- G³ówna klasa odpowiedzialna za setup Vulkan + okno ---
 class SetupManager {
 public:

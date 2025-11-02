@@ -17,4 +17,3 @@ CMakeFiles/
 CMakeCache.txt
 cmake-build*/
 # Vulkan shader cache
-*.spv
