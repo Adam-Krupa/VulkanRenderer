@@ -21,6 +21,13 @@ const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
+struct Vertex
+{
+    glm::vec2 pos;
+    glm::vec3 color;
+    static VkVertexInputBindingDescription getBindingDescription();
+    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescription();
+};
 
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
@@ -68,13 +75,7 @@ struct SwapChainSupportDetails
     std::vector<VkSurfaceFormatKHR> formats;
     std::vector<VkPresentModeKHR> presentModes;
 };
-struct Vertex
-{
-    glm::vec2 pos;
-    glm::vec3 color;
-    static VkVertexInputBindingDescription getBindingDescription();
-    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescription();
-};
+
 // --- G³ówna klasa odpowiedzialna za setup Vulkan + okno ---
 class SetupManager {
 public:
@@ -101,6 +102,8 @@ private:
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews;
     std::vector<VkFramebuffer> swapChainFramebuffers;
+    VkBuffer vertexBuffer;
+    VkDeviceMemory vertexBufferMemory;
     VkFormat swapChainImageFormat;
     VkExtent2D swapChainExtent;
     VkPipeline graphicsPipeline;
@@ -133,6 +136,7 @@ private:
     void createGraphicsPipeline();
     void createFramebuffers();
     void createCommandPool();
+    void createVertexBuffer();
     void createCommandBuffer();
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void createSyncObjects();
@@ -140,6 +144,7 @@ private:
     void cleanupSwapChain();
 
     // --- Narzêdzia pomocnicze ---
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
     bool isDeviceSuitable(VkPhysicalDevice device);
     bool checkValidationLayerSupport();
     bool checkDeviceExtensionSupport(VkPhysicalDevice device);
