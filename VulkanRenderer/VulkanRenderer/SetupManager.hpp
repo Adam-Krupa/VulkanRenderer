@@ -103,6 +103,7 @@ private:
     std::vector<VkImageView> swapChainImageViews;
     std::vector<VkFramebuffer> swapChainFramebuffers;
     VkBuffer vertexBuffer;
+    VkBuffer stageBuffer;
     VkDeviceMemory vertexBufferMemory;
     VkFormat swapChainImageFormat;
     VkExtent2D swapChainExtent;
@@ -145,6 +146,8 @@ private:
 
     // --- Narzêdzia pomocnicze ---
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+    void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
     bool isDeviceSuitable(VkPhysicalDevice device);
     bool checkValidationLayerSupport();
     bool checkDeviceExtensionSupport(VkPhysicalDevice device);
