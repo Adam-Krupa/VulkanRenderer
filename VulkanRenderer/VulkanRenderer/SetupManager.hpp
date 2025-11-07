@@ -29,6 +29,13 @@ struct Vertex
     static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescription();
 };
 
+struct UniformBufferObject
+{
+    glm::mat4 model;
+    glm::mat4 view;
+    glm::mat4 proj;
+};
+
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
 };
@@ -100,6 +107,7 @@ private:
 
     VkQueue graphicsQueue;
     VkQueue presentQueue;
+    VkDescriptorSetLayout descriptorSetLayout;
     VkPipelineLayout pipelineLayout;
     VkRenderPass renderPass;
     VkSwapchainKHR swapChain;
@@ -108,6 +116,9 @@ private:
     std::vector<VkFramebuffer> swapChainFramebuffers;
     VkBuffer vertexBuffer;
     VkBuffer indexBuffer;
+    std::vector<VkBuffer> uniformBuffers;
+    std::vector<VkDeviceMemory> uniformBuffersMemory;
+    std::vector<void*> uniformBuffersMapped;
     VkDeviceMemory indexBufferMemory;
     VkDeviceMemory vertexBufferMemory;
     VkFormat swapChainImageFormat;
@@ -139,11 +150,13 @@ private:
     void createSwapChain();
     void createImageViews();
     void createRenderPass();
+    void createDescriptorSetLayout();
     void createGraphicsPipeline();
     void createFramebuffers();
     void createCommandPool();
     void createVertexBuffer();
     void createIndexBuffer();
+    void createUniformBuffers();
     void createCommandBuffer();
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void createSyncObjects();
@@ -151,6 +164,7 @@ private:
     void cleanupSwapChain();
 
     // --- Narzêdzia pomocnicze ---
+    void updateUniformBuffer(uint32_t currentFrame);
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
     void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
