@@ -119,6 +119,8 @@ private:
     std::vector<VkBuffer> uniformBuffers;
     std::vector<VkDeviceMemory> uniformBuffersMemory;
     std::vector<void*> uniformBuffersMapped;
+    VkDescriptorPool descriptorPool;
+    std::vector<VkDescriptorSet> descriptorSets;
     VkDeviceMemory indexBufferMemory;
     VkDeviceMemory vertexBufferMemory;
     VkFormat swapChainImageFormat;
@@ -157,6 +159,8 @@ private:
     void createVertexBuffer();
     void createIndexBuffer();
     void createUniformBuffers();
+    void createDescriptorPools();
+    void createDescriptorSets();
     void createCommandBuffer();
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void createSyncObjects();
