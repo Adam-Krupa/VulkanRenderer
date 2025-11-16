@@ -17,4 +17,4 @@ CMakeFiles/
 CMakeCache.txt
 cmake-build*/
 # Vulkan shader cache
-!./VulkanRenderer/VulkanRenderer/ThirdParty/Vulkan/Bin
+!VulkanRenderer/VulkanRenderer/ThirdParty/Vulkan/Bin/*.exe
