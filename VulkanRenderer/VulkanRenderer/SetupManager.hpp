@@ -111,6 +111,8 @@ private:
     VkPipelineLayout pipelineLayout;
     VkRenderPass renderPass;
     VkSwapchainKHR swapChain;
+    VkImageView textureImageView;
+    VkSampler textureSampler;
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews;
     std::vector<VkFramebuffer> swapChainFramebuffers;
@@ -172,6 +174,9 @@ private:
 
     // --- Narzêdzia pomocnicze ---
     VkCommandBuffer beginSingleTimeCommands();
+    void createTextureSampler();
+    VkImageView createImageView(VkImage image, VkFormat format);
+    void createTextureImageView();
     void endSingleTimeCommands(VkCommandBuffer commandBuffer);
     void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
     void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
