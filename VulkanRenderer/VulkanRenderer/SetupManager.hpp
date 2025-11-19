@@ -129,6 +129,8 @@ private:
     VkCommandPool commandPool;
     std::vector<VkCommandBuffer> commandBuffers;
     uint32_t currentFrame = 0;
+    VkImage textureImage;
+    VkDeviceMemory textureImageMemory;
 
     // --- Sync objects ---
     std::vector<VkSemaphore> imageAvailableSemaphores;
@@ -155,6 +157,7 @@ private:
     void createDescriptorSetLayout();
     void createGraphicsPipeline();
     void createFramebuffers();
+    void createTextureImage();
     void createCommandPool();
     void createVertexBuffer();
     void createIndexBuffer();
@@ -168,8 +171,13 @@ private:
     void cleanupSwapChain();
 
     // --- Narzêdzia pomocnicze ---
+    VkCommandBuffer beginSingleTimeCommands();
+    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
+    void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+    void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
     void updateUniformBuffer(uint32_t currentFrame);
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+    void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
     void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
     bool isDeviceSuitable(VkPhysicalDevice device);
