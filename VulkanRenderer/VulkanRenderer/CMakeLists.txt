@@ -1,33 +1,36 @@
 cmake_minimum_required(VERSION 3.21)
-project(VulcanEngine LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+project(VulkanRenderer LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Vulkan
-find_package(Vulkan REQUIRED)
+# ===== Conan toolchain =====
+# (TEN PLIK JEST ŁADOWANY PRZY KONFIGURACJI)
+# -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
 
-# ŹRÓDŁA
+# ===== ZALEŻNOŚCI Z CONANA =====
+find_package(glm CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(vulkan-loader CONFIG REQUIRED)
+
+# ===== ŹRÓDŁA =====
 file(GLOB_RECURSE ENGINE_SRC
     src/*.cpp
-    Main.cpp
 )
 
-add_executable(VulcanEngine ${ENGINE_SRC})
+add_executable(VulkanRenderer 
+	${ENGINE_SRC}
+	main.cpp
+)
 
-# INCLUDE
-target_include_directories(VulcanEngine PRIVATE
+target_include_directories(VulkanRenderer PRIVATE
     include
 )
 
-# Conan packages
-find_package(glfw3 CONFIG REQUIRED)
-find_package(glm CONFIG REQUIRED)
-
-target_link_libraries(VulcanEngine PRIVATE
-    glfw
+# ===== LINKOWANIE =====
+target_link_libraries(VulkanRenderer PRIVATE
     glm::glm
-    Vulkan::Vulkan
+    glfw
+    vulkan-loader::vulkan-loader
 )
-
-# Shaders / Assets (opcjonalnie później)

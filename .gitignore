@@ -12,6 +12,7 @@
 *.user
 *.cache
 *.ipch
+/build/
 # CMake
 CMakeFiles/
 CMakeCache.txt
