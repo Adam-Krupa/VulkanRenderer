@@ -1,4 +1,4 @@
-#include "WindowsWindow.h"
+#include "../include/WindowsWindow.hpp"
 #include <GLFW/glfw3.h>
 
 void* WindowsWindow::GetNativeHandle() const

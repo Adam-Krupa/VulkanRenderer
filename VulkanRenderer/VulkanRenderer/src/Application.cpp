@@ -1,6 +1,6 @@
-#include "Application.hpp"
-#include "WindowsWindow.hpp"
-#include "Renderer.hpp"
+#include "../include/Application.hpp"
+#include "../include/WindowsWindow.hpp"
+#include "../include/Renderer.hpp"
 
 Application::Application()
 {

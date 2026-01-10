@@ -1,6 +1,5 @@
-#include "Renderer.hpp"
-#include "VulkanRenderer.hpp"
-#include "Window.hpp"
+#include "../include/Renderer.hpp"
+#include "../include/VulkanRenderer.hpp"
 
 
 
